@@ -4,7 +4,7 @@ import openai
 import PyPDF2
 
 # Set your OpenAI API key
-openai.api_key = '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'
+openai.api_key = 'bruh'
 
 def extract_text_from_pdf(pdf_path):
     doc = PyPDF2.PdfReader(pdf_path)

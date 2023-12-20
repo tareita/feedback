@@ -3,7 +3,7 @@ from langchain.llms import OpenAI
 import gradio as gr
 import os
 
-os.environ["OPENAI_API_KEY"] = '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'
+os.environ["OPENAI_API_KEY"] = 'bruh'
 
 def construct_index(directory_path):
     num_outputs = 512
