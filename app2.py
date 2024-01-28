@@ -4,6 +4,7 @@ import openai
 import PyPDF2
 from dotenv import load_dotenv
 
+###pdf fed directly to model, doesnt use vector store
 load_dotenv()
 
 # Set your OpenAI API key
@@ -44,10 +45,11 @@ def generate_openai_response(user_input, pdf_text):
     # return openai_response.choices[0].text.strip()
 
 
-def truncate_text(text, max_tokens=4096):
+def truncate_text(text, max_tokens=5000):
     # Truncate the text to fit within the specified token limit
     tokens = text.split()
     truncated_tokens = tokens[:max_tokens]
+    print(len(tokens))
     truncated_text = ' '.join(truncated_tokens)
     return truncated_text
 

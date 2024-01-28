@@ -13,7 +13,7 @@ load_dotenv()
 def construct_index(directory_path):
     num_outputs = 512
 
-    llm_predictor = LLMPredictor(llm=ChatOpenAI(temperature=0.7, model_name="gpt-3.5-turbo-instruct", max_tokens=num_outputs))
+    llm_predictor = LLMPredictor(llm=ChatOpenAI(temperature=0.7, model_name="ft:gpt-3.5-turbo-1106:personal::8jTDArZL"))
 
     service_context = ServiceContext.from_defaults(llm_predictor=llm_predictor)
 
