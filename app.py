@@ -1,14 +1,19 @@
 from llama_index import SimpleDirectoryReader, GPTSimpleVectorIndex, LLMPredictor, ServiceContext
 from langchain.llms import OpenAI
+from langchain.chat_models import ChatOpenAI
 import gradio as gr
 import os
+from dotenv import load_dotenv
 
-os.environ["OPENAI_API_KEY"] = 'bruh'
+load_dotenv()
+
+# Set your OpenAI API key
+
 
 def construct_index(directory_path):
     num_outputs = 512
 
-    llm_predictor = LLMPredictor(llm=OpenAI(temperature=0.7, model_name="text-davinci-003", max_tokens=num_outputs))
+    llm_predictor = LLMPredictor(llm=ChatOpenAI(temperature=0.7, model_name="gpt-3.5-turbo-instruct", max_tokens=num_outputs))
 
     service_context = ServiceContext.from_defaults(llm_predictor=llm_predictor)
 
