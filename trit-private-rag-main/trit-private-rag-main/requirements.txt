@@ -1,0 +1,13 @@
+langchain-openai
+pypdf
+pypdf2
+faiss-cpu
+langchain 
+openai
+tiktoken
+flask
+flask_cors
+unstructured==0.7.12
+pdfminer.six
+pillow
+pdf2image

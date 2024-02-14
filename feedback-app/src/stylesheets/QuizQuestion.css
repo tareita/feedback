@@ -1,0 +1,29 @@
+.quiz-question {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.correct-answer {
+    background-color: #fef9ea;
+    padding: 10px;
+    margin-top: 10px;
+    text-align: left;
+}
+
+.question-card {
+    background-color: lightgrey;
+}
+.card .q-title {
+    color: #2d6097;
+    text-align: left;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.card .marks {
+    background-color:#eff2f7;
+}
+.marks .card-title{
+    font-family: 'Times New Roman', Times, serif;
+}
+

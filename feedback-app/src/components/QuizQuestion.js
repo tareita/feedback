@@ -1,23 +1,26 @@
 import React, { useState } from "react";
 import ".././stylesheets/QuizQuestion.css"; // Importing the CSS file
 
-const QuizQuestion = ({ question, onAnswerSubmit, questionNumber, marks }) => {
+const QuizQuestion = ({
+  question,
+  onAnswerChange,
+  questionNumber,
+  marks,
+  showCorrectAnswer,
+  correctAnswer,
+}) => {
   const [answer, setAnswer] = useState("");
 
   const handleAnswerChange = (e) => {
     setAnswer(e.target.value);
-  };
-
-  const handleSubmit = () => {
-    onAnswerSubmit(answer, marks);
-    setAnswer("");
+    onAnswerChange(e.target.value);
   };
 
   return (
     <div className="row my-3">
-      <div className="col-md-2">
+      <div className="col-md-3">
         <div className="card">
-          <div className="card-body">
+          <div className="marks card-body">
             <h5 className="card-title">Question {questionNumber}</h5>
             <div className="form-group">
               <label htmlFor="marks">Marked out of:</label>
@@ -26,10 +29,10 @@ const QuizQuestion = ({ question, onAnswerSubmit, questionNumber, marks }) => {
           </div>
         </div>
       </div>
-      <div className="col-md-8">
+      <div className="col-md-9">
         <div className="card">
-          <div className="card-body mb-3">
-            <h3 className="card-title">{question}</h3>
+          <div className="question card-body mb-3">
+            <h5 className="card-title q-title">{question}</h5>
             <textarea
               className="form-control"
               value={answer}
@@ -37,9 +40,11 @@ const QuizQuestion = ({ question, onAnswerSubmit, questionNumber, marks }) => {
               placeholder="Your answer"
               rows={4}
             />
-            <button className="btn btn-primary mt-2" onClick={handleSubmit}>
-              Submit
-            </button>
+            {showCorrectAnswer && (
+              <div className="correct-answer">
+                <strong>Answer:</strong> {correctAnswer}
+              </div>
+            )}
           </div>
         </div>
       </div>

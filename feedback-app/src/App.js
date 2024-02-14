@@ -3,7 +3,7 @@ import Questions from "./components/Questions";
 
 function App() {
   return (
-    <div className="App">
+    <div className="App m-3">
       <Questions />
     </div>
   );
