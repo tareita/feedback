@@ -1,39 +1,59 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import QuizQuestion from "./QuizQuestion";
 import ".././stylesheets/Questions.css";
 import SubmitModal from "./SubmitModal";
 import Review from "./Review";
+import { API_URL } from "../config";
+import questions from "../questions/week1.js";
 
 const Questions = () => {
   const [answers, setAnswers] = useState({});
   const [showCorrectAnswers, setShowCorrectAnswers] = useState(false);
   const [toggleModal, setToggleModal] = useState(true);
-  const questions = [
-    {
-      id: 1,
-      question: "What is the capital of France?",
-      answer: "Paris",
-      marks: 5,
-    },
-    {
-      id: 2,
-      question: 'Who wrote "To Kill a Mockingbird"?',
-      answer: "Harper Lee",
-      marks: 10,
-    },
-    {
-      id: 3,
-      question: 'Who wrote "To Kill a Mockingbird"?',
-      answer: "Harper Lee",
-      marks: 10,
-    },
-    {
-      id: 4,
-      question: 'Who wrote "To Kill a Mockingbird"?',
-      answer: "Harper Lee",
-      marks: 10,
-    },
-  ];
+
+  const uploadDocuments = async (files) => {
+    const res2 = await fetch(API_URL + "api/v1/deleteDocuments", {
+      method: "GET",
+    });
+    const data1 = await res2.json();
+    console.log(data1.message);
+    console.log(files);
+
+    // Map each file to a promise that uploads it
+    const uploadPromises = files.map((file) => {
+      const formData = new FormData();
+      formData.append("file", file);
+      return uploadHelper(formData); // Return the promise returned by uploadHelper
+    });
+
+    // Wait for all uploads to finish
+    await Promise.all(uploadPromises);
+
+    processDocuments();
+  };
+
+  const uploadHelper = async (formdata) => {
+    const res = await fetch(API_URL + "api/v1/uploadDocuments", {
+      method: "POST",
+      body: formdata,
+    });
+
+    const data = await res.json();
+    console.log(data.message);
+  };
+
+  const processDocuments = async () => {
+    const res3 = await fetch(API_URL + "api/v1/processDocuments", {
+      method: "GET",
+    });
+    const data3 = await res3.json();
+    console.log(data3.message);
+  };
+
+  const handleFileChange = (e) => {
+    const files = Array.from(e.target.files);
+    uploadDocuments(files);
+  };
 
   const handleAnswerChange = (questionId, answer) => {
     setAnswers({ ...answers, [questionId]: answer });
@@ -63,6 +83,14 @@ const Questions = () => {
             </svg>
             Week 1 Quiz
           </h2>
+          <input
+            class="form-control-file"
+            type="file"
+            multiple
+            onChange={handleFileChange}
+            data-testid="form-control-file"
+            aria-label="Upload File"
+          />
           <form onSubmit={handleFormSubmit}>
             {questions.map((question) => (
               <QuizQuestion

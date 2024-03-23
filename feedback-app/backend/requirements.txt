@@ -11,3 +11,5 @@ unstructured==0.7.12
 pdfminer.six
 pillow
 pdf2image
+openai
+gunicorn

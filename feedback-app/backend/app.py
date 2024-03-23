@@ -1,14 +1,16 @@
 import os
 os.environ["OPENAI_API_KEY"] = "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"
+
 baseDir = os.path.abspath(os.path.dirname(__file__))
 
-from flask import Flask, request
+from flask import Flask, request, render_template
 import random
 from werkzeug.utils import secure_filename
 import json
 import time
 import traceback
 import shutil
+from openai import OpenAI
 from flask_cors import CORS
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough,RunnableParallel
@@ -22,7 +24,7 @@ from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
 import gc
 
-
+client = OpenAI()
 # document formatter
 def format_docs(docs):
     return "\n\n".join(doc.page_content for doc in docs)
@@ -94,7 +96,9 @@ rag_prompt = PromptTemplate.from_template(template)
 app = Flask(__name__)
 CORS(app)
 
-
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 @app.route('/api/v1/uploadDocuments', methods=['POST'])
 def uploadDocuments():
@@ -186,7 +190,8 @@ def chat():
         prompt = data['prompt']
 
         faiss_path = os.path.join(baseDir, "static/faiss_index")
-        vectorstore = FAISS.load_local(faiss_path, OpenAIEmbeddings())
+        vectorstore = FAISS.load_local(faiss_path, OpenAIEmbeddings(), allow_dangerous_deserialization=True)
+
         retriever = vectorstore.as_retriever(search_type="similarity", search_kwargs={"k": 1})
 
         rag_chain_from_docs = (
@@ -222,6 +227,21 @@ def chat():
 
         return json.dumps({"message" : f"error occured : {str(e)}, {traceback.format_exc()}"}), 500
 
+@app.route('/api/v1/feedbackSummary', methods=['POST'])
+def feedbackSummary():
+    try :
+        data = request.json
+        prompt = data['prompt']
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo-16k",
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant designed to create a feedback summary"},
+                {"role": "user", "content": "Based on the feedback given below, create a feedback summary of topics the student needs to work on in a paragraph format, refer to the student directly using 'you' in second person. DO NOT refer to question numbers at all! If there is nothing to work on, reply with 'No additional feedback. Keep up the good work!." + prompt}
+            ]
+        )
+        return json.dumps({"feedback" : response.choices[0].message.content})
+    except Exception as e:
+        return json.dumps({"message" : f"error occured : {str(e)}, {traceback.format_exc()}"}), 500
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0' ,port=8501)

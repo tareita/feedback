@@ -1,26 +1,32 @@
 const questions = [
   {
     id: 1,
-    question: "What is the capital of France?",
+    question:
+      "List the three main security properties and briefly describe the purpose of each one.",
     answer: "",
-    marks: 5,
+    marks: 6,
   },
   {
     id: 2,
-    question: 'Who wrote "To Kill a Mockingbird"?',
+    question:
+      "Briefly explain the following kinds of mechanisms: Deter, Deny, Detect.",
     answer: "",
-    marks: 10,
+    marks: 6,
   },
   {
     id: 3,
-    question: 'Who wrote "To Kill a Mockingbird"?',
+    question:
+      "Briefly explain the following kinds of attacks: jamming, spoofing, hijacking, sniffing, poisoning.",
     answer: "",
     marks: 10,
   },
   {
     id: 4,
-    question: 'Who wrote "To Kill a Mockingbird"?',
+    question:
+      "Briefly describe the main functions of the transport, network and data link layers of the OSI model.",
     answer: "",
-    marks: 10,
+    marks: 6,
   },
 ];
+
+export default questions;

@@ -6,3 +6,5 @@ static/*
 *.pkl
 venv
 venv/*
+.flaskenv
+.env
