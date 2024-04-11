@@ -1,10 +1,10 @@
 import React from "react";
 import { render, waitFor } from "@testing-library/react";
-import Review from "./Review";
-import { useGlobal } from "../contexts/Context";
-import { API_URL } from "../config";
+import Review from "../Review";
+import { useGlobal } from "../../contexts/Context";
+import { API_URL } from "../../config";
 
-jest.mock("../contexts/Context", () => ({
+jest.mock("../../contexts/Context", () => ({
   useGlobal: jest.fn(), // Mock the useGlobal hook
 }));
 

@@ -61,7 +61,7 @@ const Review = () => {
 
     if (!timerId) {
       timerId = setTimeout(() => {
-        const calculatedPercentage = ((totalMark / 28) * 100).toFixed(2);
+        const calculatedPercentage = ((totalMark / 32) * 100).toFixed(2);
         setPercentage(calculatedPercentage);
         setTotalMarkStabilized(true);
         generateReview();

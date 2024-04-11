@@ -5,6 +5,8 @@ import SubmitModal from "./SubmitModal";
 import Review from "./Review";
 import { API_URL } from "../config";
 import questions from "../questions/week1.js";
+import mcqQuestions from "../questions/week1mcq.js";
+import McqQuestion from "./McqQuestion.js";
 
 const Questions = () => {
   const [answers, setAnswers] = useState({});
@@ -84,7 +86,7 @@ const Questions = () => {
             Week 1 Quiz
           </h2>
           <input
-            class="form-control-file"
+            className="form-control-file"
             type="file"
             multiple
             onChange={handleFileChange}
@@ -103,6 +105,21 @@ const Questions = () => {
                 }
                 showCorrectAnswer={showCorrectAnswers}
                 correctAnswer={question.answer}
+              />
+            ))}
+            {mcqQuestions.map((question, index) => (
+              <McqQuestion
+                key={question.id}
+                questionNumber={question.id}
+                question={question.question}
+                options={question.options}
+                marks={question.marks}
+                showCorrectAnswer={showCorrectAnswers}
+                correctAns={question.correctAnswer}
+                onAnswerChange={(answer) =>
+                  handleAnswerChange(question.id, answer)
+                }
+                section={question.section}
               />
             ))}
             {toggleModal ? <SubmitModal /> : <div></div>}

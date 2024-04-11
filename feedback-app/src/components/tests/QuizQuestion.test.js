@@ -1,12 +1,12 @@
 import React from "react";
 import { render, fireEvent, waitFor } from "@testing-library/react";
-import QuizQuestion from "./QuizQuestion";
-import { API_URL } from "../config";
-import { useGlobal } from "../contexts/Context";
-import * as ContextModule from "../contexts/Context";
+import QuizQuestion from "../QuizQuestion";
+import { API_URL } from "../../config";
+import { useGlobal } from "../../contexts/Context";
+import * as ContextModule from "../../contexts/Context";
 
 // Mock the useGlobal hook
-jest.mock("../contexts/Context", () => ({
+jest.mock("../../contexts/Context", () => ({
   useGlobal: () => ({
     setTotalMark: jest.fn(), // Provide a mock function for setTotalMark
     feedback: "", // Provide dummy value for feedback
@@ -96,7 +96,7 @@ describe("QuizQuestion component", () => {
       method: "POST",
       body: JSON.stringify({
         prompt:
-          "Question:List the three main security properties and briefly describe the purpose of each one. Answer: Marks:10",
+          "Question:List the three main security properties and briefly describe the purpose of each one. Answer:idk Marks:10",
       }),
       headers: {
         "Content-Type": "application/json",

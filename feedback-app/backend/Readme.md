@@ -3,7 +3,7 @@
 Trit is a chatbot that utilizes RAG (Retrieval-Augmented Generation) and FAISS (Fast Approximate Nearest Neighbor Search) to answer questions based on a collection of PDF documents. The main steps include:
 
 1. Load all the PDF documents from a given directory using DirectoryLoader.
-2. Append a separator (*****) to the end of each document’s page content.
+2. Append a separator (**\***) to the end of each document’s page content.
 3. Split the documents into chunks of 3000 characters each using CharacterTextSplitter.
 4. Embed the chunks into vectors using OpenAIEmbeddings and store them in a FAISS index using FAISS.from_documents.
 5. Save the FAISS index locally using vectorstore.save_local.
@@ -18,26 +18,26 @@ To run this project using Docker, follow these steps:
 
 1. Build the docker image:
 
-    ```bash
-    docker build --network=host -t trit .
-    ```
+   ```bash
+   docker build --network=host -t trit .
+   ```
 
 2. Run the docker image:
 
-    ```bash
-    docker run -p 8501:8501 trit
-    ```
+   ```bash
+   docker run -p 8501:8501 trit
+   ```
 
-    To run the docker image in detached mode, add -d to the command:
+   To run the docker image in detached mode, add -d to the command:
 
-    ```bash
-    docker run -d -p 8501:8501 trit
-    ```
+   ```bash
+   docker run -d -p 8501:8501 trit
+   ```
 
 Alternatively, you can pull the image from Docker Hub:
 
 ```bash
-docker pull pydashninja/trit
+docker pull tareita/feedback
 ```
 
 ## Getting Started
@@ -53,7 +53,7 @@ Make sure you have the following installed:
 - pypdf
 - pypdf2
 - faiss-cpu
-- langchain 
+- langchain
 - openai
 - tiktoken
 - flask
@@ -67,39 +67,42 @@ Make sure you have the following installed:
 
 1. **Unzip:**
 
-    ```bash
-    unzip the code & go into directory
-    ```
+   ```bash
+   unzip the code & go into directory
+   ```
 
 2. **Install the dependencies:**
 
-    ```bash
-    pip install -r requirements.txt
-    ```
+   ```bash
+   pip install -r requirements.txt
+   ```
 
 ### Usage
 
 1. **Run the Flask application:**
 
-    ```bash
-    python app.py
-    ```
+   ```bash
+   python app.py
+   ```
 
-    The application will start running at [http://localhost:8501/](http://localhost:8501/).
+   The application will start running at [http://localhost:8501/](http://localhost:8501/).
 
 2. **Endpoints:**
 
    - **Upload Documents:**
+
      - Endpoint: `/api/v1/uploadDocuments`
      - Method: `POST`
      - Description: Upload documents to the server.
 
    - **Delete Documents:**
+
      - Endpoint: `/api/v1/deleteDocuments`
      - Method: `GET`
      - Description: Delete uploaded documents from the server.
 
    - **Process Documents:**
+
      - Endpoint: `/api/v1/processDocuments`
      - Method: `GET`
      - Description: Process uploaded documents and add them to the knowledge base.
@@ -108,7 +111,3 @@ Make sure you have the following installed:
      - Endpoint: `/api/v1/chat`
      - Method: `POST`
      - Description: Engage in a chat with the model based on user input.
-
-
-
-

@@ -1,67 +1,59 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ".././stylesheets/QuizQuestion.css"; // Importing the CSS file
-import { API_URL } from "../config";
 import { useGlobal } from "../contexts/Context";
+import { API_URL } from "../config";
 
-const QuizQuestion = ({
+const McqQuestion = ({
   question,
-  onAnswerChange,
-  questionNumber,
+  options,
   marks,
+  questionNumber,
+  correctAns,
+  onAnswerChange,
   showCorrectAnswer,
+  section, // Add prop to handle answer change
 }) => {
+  const [selectedOption, setSelectedOption] = useState(null);
   const [answer, setAnswer] = useState("");
   const [correctAnswer, setCorrectAnswer] = useState("");
-  const { setTotalMark, setFeedback } = useGlobal();
+  const { setTotalMark } = useGlobal();
   const [questionMark, setQuestionMark] = useState(0);
-  const [currFeedback, setCurrFeedback] = useState(""); // State to store mark for the current question
   const [loading, setLoading] = useState(false);
-  const handleAnswerChange = (e) => {
-    setAnswer(e.target.value);
-    onAnswerChange(e.target.value);
-  };
 
-  const getMarks = (feedback) => {
-    const markPattern = /mark\s*for\s*.*?(\d+)\/\d+/i;
-    const match = feedback.match(markPattern);
-    let mark = null;
-    if (match) {
-      mark = parseInt(match[1]); // Extracted mark value
-    }
-    return mark || 0; // Return 0 if no mark found
+  const handleOptionSelect = (option) => {
+    setSelectedOption(option);
+    // Pass selected answer to parent component
+    setAnswer(option);
+    onAnswerChange(option);
   };
 
   const fetchFeedback = async () => {
-    // Get current time in milliseconds
-    const Start = new Date().getTime();
-
-    let promptAnswer = answer;
-    if (answer === "" || answer === null || answer === " ") {
-      promptAnswer = "idk";
-    }
     const prompt = {
       prompt:
-        "Question:" + question + " Answer:" + promptAnswer + " Marks:" + marks,
+        "Question: " +
+        question +
+        " " +
+        "Student Answer: " +
+        answer +
+        " " +
+        "Correct Answer: " +
+        correctAns +
+        " " +
+        "Section: " +
+        section,
     };
-    const res = await fetch(API_URL + "api/v1/chat", {
+    const res = await fetch(API_URL + "api/v1/chatMcq", {
       method: "POST",
       body: JSON.stringify(prompt),
       headers: {
         "Content-Type": "application/json",
       },
     });
-
     const data = await res.json();
-    setCorrectAnswer(data.answer);
-    const mark = getMarks(data.answer);
+    setCorrectAnswer(data.feedback);
+    const mark = answer === correctAns ? 1 : 0;
     setQuestionMark(mark); // Update mark for the current question
-    setCurrFeedback(data.answer);
     setLoading(false);
-    // Your function or code block here
-    const end = new Date().getTime();
-    // Calculate execution time in milliseconds
-    const executionTime = end - Start;
-    console.log("time taken:" + executionTime);
   };
 
   useEffect(() => {
@@ -74,9 +66,8 @@ const QuizQuestion = ({
   useEffect(() => {
     if (showCorrectAnswer) {
       setTotalMark((prevTotal) => prevTotal + questionMark); // Update totalMark with mark for the current question
-      setFeedback((prevFeedback) => prevFeedback.concat(currFeedback));
     }
-  }, [questionMark, currFeedback, showCorrectAnswer]); // Run effect when questionMark or showCorrectAnswer changes
+  }, [questionMark, showCorrectAnswer]); // Run effect when questionMark or showCorrectAnswer changes
 
   return (
     <div className="row my-3">
@@ -95,13 +86,29 @@ const QuizQuestion = ({
         <div className="card">
           <div className="question card-body mb-3">
             <h5 className="card-title q-title">{question}</h5>
-            <textarea
-              className="form-control"
-              value={answer}
-              onChange={handleAnswerChange}
-              placeholder="Your answer"
-              rows={4}
-            />
+            <ul className="list-group">
+              {options.map((option, index) => (
+                <li key={index} className="list-group-item">
+                  <div className="form-check">
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      id={`option-${index}`}
+                      name={`options-${questionNumber}`} // Use unique name for each question
+                      value={option}
+                      checked={option === selectedOption}
+                      onChange={() => handleOptionSelect(option)}
+                    />
+                    <label
+                      className="form-check-label"
+                      htmlFor={`option-${index}`}
+                    >
+                      {option}
+                    </label>
+                  </div>
+                </li>
+              ))}
+            </ul>
             {showCorrectAnswer &&
               (loading ? (
                 <div
@@ -122,4 +129,4 @@ const QuizQuestion = ({
   );
 };
 
-export default QuizQuestion;
+export default McqQuestion;

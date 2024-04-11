@@ -5,14 +5,14 @@ import {
   waitFor,
   getByTestId,
 } from "@testing-library/react";
-import Questions from "./Questions";
-import { API_URL } from "../config";
-import { useGlobal } from "../contexts/Context";
+import Questions from "../Questions";
+import { API_URL } from "../../config";
+import { useGlobal } from "../../contexts/Context";
 import fetchMock from "jest-fetch-mock";
 
 fetchMock.enableMocks();
 
-jest.mock("../contexts/Context", () => ({
+jest.mock("../../contexts/Context", () => ({
   useGlobal: () => ({
     setTotalMark: jest.fn(), // Provide a mock function for setTotalMark
     feedback: "", // Provide dummy value for feedback
