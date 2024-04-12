@@ -1,6 +1,4 @@
 import os
-os.environ["OPENAI_API_KEY"] = "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"
-
 baseDir = os.path.abspath(os.path.dirname(__file__))
 
 from flask import Flask, request, render_template
