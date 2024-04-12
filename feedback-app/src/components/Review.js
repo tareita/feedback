@@ -97,7 +97,7 @@ const Review = () => {
       </h2>
       <div className="card">
         <div className="card-body">
-          <h4 className="title">Total Mark: {totalMark}/28</h4>
+          <h4 className="title">Total Mark: {totalMark}/32</h4>
           <h5 className="font-weight-bold">
             {percentage !== null && `${percentage}%`}
           </h5>

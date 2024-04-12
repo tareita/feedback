@@ -1,4 +1,6 @@
 import os
+
+
 baseDir = os.path.abspath(os.path.dirname(__file__))
 
 from flask import Flask, request, render_template
@@ -41,7 +43,7 @@ Format for Question and Answer is given below.
 - Answer: A sentence or a paragraph that provides the correct or incorrect answer to the question.
 - Mark Count: A number that indicates the maximum mark for the question.
 - Is this answer correct? If not, provide the correct answer from the given section. Provide a mark out of the mark count.
-- Feedback: Provide feedback on the accuracy and clarity of the answer if full marks were not attained. Additionally, suggest a relevant section or topic to study from context given below if the answer was not fully correct.
+- Feedback: Provide feedback on the accuracy and clarity of the answer if full marks were not attained. Additionally, suggest a relevant section or topic to study from context given below if the answer was not fully correct, refer to section titles too.
 
 Example Number 1. Here Answer is empty and got 0 marks.
 Question: What is an initial sequence number (ISN)?
@@ -93,6 +95,7 @@ the given question. You will also be given the chapter name of the section that 
 tell them if they are correct or incorrect. If they are correct, meaning if the students answer == correct answer, simply say 'Your answer is correct'. If they are incorrect, then tell them the correct answer, which will be given to you. And tell them to review the relevant section given.
 Example: Your answer is incorrect. The correct answer is xyz. Refer to chapter x for more information on the topic of ....
 Refer to the student as You.
+If the student's answer is blank, it is incorrect.
 Question, Answer, Correct Answer and Section :"""
 
 
