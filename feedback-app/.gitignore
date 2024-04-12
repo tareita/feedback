@@ -21,3 +21,14 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+__pycache__
+faiss_index
+static
+static/*
+*.pdf
+*.pkl
+venv
+venv/*
+.flaskenv
+.env
